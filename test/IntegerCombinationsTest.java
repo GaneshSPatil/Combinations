@@ -1,4 +1,3 @@
-import org.hamcrest.Matcher;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -8,11 +7,11 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class CombinationsTest {
+public class IntegerCombinationsTest {
     @Test
     public void shouldGenerateCombinationsForEmptyCollection() throws Exception {
         ArrayList<Integer> collection = new ArrayList<>();
-        List<ArrayList<Integer>> combinations = Combinations.getCombinationsOf(collection);
+        List<ArrayList<Integer>> combinations = new Combinations(collection).generate();
         assertThat(combinations.size(), is(0));
     }
 
@@ -20,7 +19,7 @@ public class CombinationsTest {
     public void shouldGenerateCombinationsForCollectionWithOneElement() throws Exception {
         ArrayList<Integer> collection = new ArrayList<>();
         collection.add(1);
-        List<ArrayList<Integer>> combinations = Combinations.getCombinationsOf(collection);
+        List<ArrayList<Integer>> combinations = new Combinations(collection).generate();
 
         assertThat(combinations.size(), is(1));
         assertThat(combinations.get(0), is(Arrays.asList(1)));
@@ -31,7 +30,7 @@ public class CombinationsTest {
         ArrayList<Integer> collection = new ArrayList<>();
         collection.add(1);
         collection.add(2);
-        List<ArrayList<Integer>> combinations = Combinations.getCombinationsOf(collection);
+        List<ArrayList<Integer>> combinations = new Combinations(collection).generate();
 
         assertThat(combinations.size(), is(3));
         assertThat(combinations.get(0), is(Arrays.asList(1)));
@@ -45,7 +44,7 @@ public class CombinationsTest {
         collection.add(1);
         collection.add(2);
         collection.add(3);
-        List<ArrayList<Integer>> combinations = Combinations.getCombinationsOf(collection);
+        List<ArrayList<Integer>> combinations = new Combinations(collection).generate();
 
         assertThat(combinations.size(), is(7));
         assertThat(combinations.get(0), is(Arrays.asList(1)));

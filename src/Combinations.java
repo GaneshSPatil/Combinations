@@ -1,20 +1,26 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Combinations {
-    public static List<ArrayList<Integer>> getCombinationsOf(ArrayList<Integer> set){
-        List<ArrayList<Integer>> allCombinations = new ArrayList<ArrayList<Integer>>();
-        for (int i = 0; i <= set.size(); i++) {
-            List<ArrayList<Integer>> kSizedCombinations = getSizedCombinations(set, i);
-            for (ArrayList<Integer> combination : kSizedCombinations) {
+public class Combinations<T> {
+    private ArrayList<T> collection;
+
+    public Combinations(ArrayList<T> collection) {
+        this.collection = collection;
+    }
+
+    public List<ArrayList<T>> generate(){
+        List<ArrayList<T>> allCombinations = new ArrayList<>();
+        for (int i = 0; i <= collection.size(); i++) {
+            List<ArrayList<T>> kSizedCombinations = getSizedCombinations(collection, i);
+            for (ArrayList<T> combination : kSizedCombinations) {
                 allCombinations.add(combination);
             }
         }
         return allCombinations;
     }
 
-    private static List<ArrayList<Integer>> getSizedCombinations(final ArrayList<Integer> allStates, int length) {
-        List<ArrayList<Integer>> kSizedCombs = new ArrayList<ArrayList<Integer>>();
+    private List<ArrayList<T>> getSizedCombinations(final ArrayList<T> allStates, int length) {
+        List<ArrayList<T>> kSizedCombs = new ArrayList<>();
         if (length > allStates.size() || length <= 0) {
             return kSizedCombs;
         }
@@ -25,31 +31,31 @@ public class Combinations {
         }
 
         if (length == 1) {
-            for (final Integer state : allStates) {
-                kSizedCombs.add(new ArrayList<Integer>(){{add(state);}});
+            for (final T state : allStates) {
+                kSizedCombs.add(new ArrayList<T>(){{add(state);}});
             }
             return kSizedCombs;
         }
-        final ArrayList<Integer> uniqueSetOfStates = new ArrayList<Integer>(allStates);
-        for (int i = 0; i < new ArrayList<Integer>(uniqueSetOfStates).size() - length + 1; i++) {
+        final ArrayList<T> uniqueSetOfStates = new ArrayList<>(allStates);
+        for (int i = 0; i < new ArrayList<>(uniqueSetOfStates).size() - length + 1; i++) {
             final int finalI = i;
-            ArrayList<Integer> head = new ArrayList<Integer>(){
+            ArrayList<T> head = new ArrayList<T>(){
                 {add(uniqueSetOfStates.subList(finalI, finalI + 1).get(0));}
             };
-            ArrayList<Integer> listOfStates = new ArrayList<Integer>();
-            for (Integer state : uniqueSetOfStates.subList(i + 1, allStates.size())) {
+            ArrayList<T> listOfStates = new ArrayList<>();
+            for (T state : uniqueSetOfStates.subList(i + 1, allStates.size())) {
                 listOfStates.add(state);
             }
-            List<ArrayList<Integer>> tailCombs = new ArrayList<ArrayList<Integer>>(getSizedCombinations(listOfStates, length - 1));
+            List<ArrayList<T>> tailCombs = new ArrayList<>(getSizedCombinations(listOfStates, length - 1));
 
             for (int j = 0; j < tailCombs.size(); j++) {
-                head.addAll(new ArrayList<Integer>(tailCombs.get(j)));
-                ArrayList<Integer> states = new ArrayList<Integer>();
-                for (Integer state : new ArrayList<Integer>(head)) {
+                head.addAll(new ArrayList<>(tailCombs.get(j)));
+                ArrayList<T> states = new ArrayList<>();
+                for (T state : new ArrayList<>(head)) {
                     states.add(state);
                 }
                 kSizedCombs.add(states);
-                head = new ArrayList<Integer>(){{add(uniqueSetOfStates.subList(finalI, finalI + 1).get(0));}};
+                head = new ArrayList<T>(){{add(uniqueSetOfStates.subList(finalI, finalI + 1).get(0));}};
             }
         }
         return kSizedCombs;
